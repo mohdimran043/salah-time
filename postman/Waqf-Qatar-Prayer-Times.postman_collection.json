@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "waqf-qatar-prayer-times",
+		"name": "Waqf Qatar Prayer Times API",
+		"description": "Complete API collection for Waqf Qatar Prayer Times service including internal API and external Aladhan API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Waqf API Endpoints",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/health",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Check API health status and version"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Today's Prayer Times",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/prayer-times",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"prayer-times"
+							]
+						},
+						"description": "Get prayer times for today in Doha, Qatar"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prayer Times by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/prayer-times?date=2025-01-15&location=doha",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"prayer-times"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-01-15",
+									"description": "Date in YYYY-MM-DD format"
+								},
+								{
+									"key": "location",
+									"value": "doha",
+									"description": "Location (default: doha)"
+								}
+							]
+						},
+						"description": "Get prayer times for a specific date"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Monthly Prayer Times",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/month?month=1&year=2025&location=doha",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"month"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "1",
+									"description": "Month number (1-12)"
+								},
+								{
+									"key": "year",
+									"value": "2025",
+									"description": "Year (YYYY)"
+								},
+								{
+									"key": "location",
+									"value": "doha",
+									"description": "Location (default: doha)"
+								}
+							]
+						},
+						"description": "Get all prayer times for a specific month"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Next Prayer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/next?location=doha",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"next"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "doha",
+									"description": "Location (default: doha)"
+								}
+							]
+						},
+						"description": "Get the next upcoming prayer time"
+					},
+					"response": []
+				}
+			],
+			"description": "Internal Waqf API endpoints for prayer times"
+		},
+		{
+			"name": "Sync Function",
+			"item": [
+				{
+					"name": "Manual Sync Trigger",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{WAQF_SYNC_URL}}",
+							"host": [
+								"{{WAQF_SYNC_URL}}"
+							]
+						},
+						"description": "Manually trigger prayer times data sync from Aladhan API"
+					},
+					"response": []
+				}
+			],
+			"description": "Sync function to update prayer times data"
+		},
+		{
+			"name": "External Aladhan API",
+			"item": [
+				{
+					"name": "Get Calendar - Current Month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.aladhan.com/v1/calendar?latitude=25.2854&longitude=51.5310&method=2&month={{current_month}}&year={{current_year}}",
+							"protocol": "http",
+							"host": [
+								"api",
+								"aladhan",
+								"com"
+							],
+							"path": [
+								"v1",
+								"calendar"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "25.2854",
+									"description": "Doha latitude"
+								},
+								{
+									"key": "longitude",
+									"value": "51.5310",
+									"description": "Doha longitude"
+								},
+								{
+									"key": "method",
+									"value": "2",
+									"description": "ISNA calculation method"
+								},
+								{
+									"key": "month",
+									"value": "{{current_month}}",
+									"description": "Current month (1-12)"
+								},
+								{
+									"key": "year",
+									"value": "{{current_year}}",
+									"description": "Current year"
+								}
+							]
+						},
+						"description": "Get full month prayer times from Aladhan API for Qatar"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Calendar - Next Month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.aladhan.com/v1/calendar?latitude=25.2854&longitude=51.5310&method=2&month={{next_month}}&year={{next_year}}",
+							"protocol": "http",
+							"host": [
+								"api",
+								"aladhan",
+								"com"
+							],
+							"path": [
+								"v1",
+								"calendar"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "25.2854",
+									"description": "Doha latitude"
+								},
+								{
+									"key": "longitude",
+									"value": "51.5310",
+									"description": "Doha longitude"
+								},
+								{
+									"key": "method",
+									"value": "2",
+									"description": "ISNA calculation method"
+								},
+								{
+									"key": "month",
+									"value": "{{next_month}}",
+									"description": "Next month (1-12)"
+								},
+								{
+									"key": "year",
+									"value": "{{next_year}}",
+									"description": "Next year if December"
+								}
+							]
+						},
+						"description": "Get next month prayer times from Aladhan API for Qatar"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Day Prayer Times",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.aladhan.com/v1/timings?latitude=25.2854&longitude=51.5310&method=2&date={{target_date}}",
+							"protocol": "http",
+							"host": [
+								"api",
+								"aladhan",
+								"com"
+							],
+							"path": [
+								"v1",
+								"timings"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "25.2854",
+									"description": "Doha latitude"
+								},
+								{
+									"key": "longitude",
+									"value": "51.5310",
+									"description": "Doha longitude"
+								},
+								{
+									"key": "method",
+									"value": "2",
+									"description": "ISNA calculation method"
+								},
+								{
+									"key": "date",
+									"value": "{{target_date}}",
+									"description": "Date in DD-MM-YYYY format"
+								}
+							]
+						},
+						"description": "Get prayer times for a specific date from Aladhan API"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Methods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.aladhan.com/v1/methods",
+							"protocol": "http",
+							"host": [
+								"api",
+								"aladhan",
+								"com"
+							],
+							"path": [
+								"v1",
+								"methods"
+							]
+						},
+						"description": "Get all available calculation methods from Aladhan API"
+					},
+					"response": []
+				}
+			],
+			"description": "External Aladhan API endpoints used by the sync function"
+		},
+		{
+			"name": "Testing & Development",
+			"item": [
+				{
+					"name": "Test API Response Time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has success field\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/prayer-times",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"prayer-times"
+							]
+						},
+						"description": "Test API response time and basic functionality"
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Prayer Times Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Prayer times have correct format\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.have.property('times');",
+									"    ",
+									"    var times = jsonData.data.times;",
+									"    pm.expect(times).to.have.property('fajr');",
+									"    pm.expect(times).to.have.property('sunrise');",
+									"    pm.expect(times).to.have.property('dhuhr');",
+									"    pm.expect(times).to.have.property('asr');",
+									"    pm.expect(times).to.have.property('maghrib');",
+									"    pm.expect(times).to.have.property('isha');",
+									"    ",
+									"    // Validate time format (HH:MM)",
+									"    var timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;",
+									"    pm.expect(times.fajr).to.match(timeRegex);",
+									"    pm.expect(times.dhuhr).to.match(timeRegex);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{WAQF_BASE_URL}}/prayer-times",
+							"host": [
+								"{{WAQF_BASE_URL}}"
+							],
+							"path": [
+								"prayer-times"
+							]
+						},
+						"description": "Validate that prayer times are in correct format"
+					},
+					"response": []
+				}
+			],
+			"description": "Testing and validation requests"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Set dynamic date variables",
+					"const now = new Date();",
+					"const currentMonth = now.getMonth() + 1;",
+					"const currentYear = now.getFullYear();",
+					"",
+					"let nextMonth = currentMonth + 1;",
+					"let nextYear = currentYear;",
+					"",
+					"if (nextMonth > 12) {",
+					"    nextMonth = 1;",
+					"    nextYear = currentYear + 1;",
+					"}",
+					"",
+					"pm.globals.set('current_month', currentMonth);",
+					"pm.globals.set('current_year', currentYear);",
+					"pm.globals.set('next_month', nextMonth);",
+					"pm.globals.set('next_year', nextYear);",
+					"",
+					"// Set target date for testing (today)",
+					"const today = now.toLocaleDateString('en-GB'); // DD/MM/YYYY format",
+					"pm.globals.set('target_date', today);"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "WAQF_BASE_URL",
+			"value": "https://me-central1-your-project-id.cloudfunctions.net/waqf-api",
+			"description": "Base URL for Waqf API (update with your actual Cloud Function URL)"
+		},
+		{
+			"key": "WAQF_SYNC_URL",
+			"value": "https://me-central1-your-project-id.cloudfunctions.net/waqf-sync",
+			"description": "URL for Waqf sync function (update with your actual Cloud Function URL)"
+		}
+	]
+}
